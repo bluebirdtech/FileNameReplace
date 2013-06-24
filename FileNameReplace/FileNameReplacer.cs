@@ -30,6 +30,9 @@ namespace FileNameReplace
                 string filename = Path.GetFileName( fullPath );
                 string directoryName = Path.GetDirectoryName( fullPath );
                 string newFilePath = Path.Combine( directoryName, filename.Replace( _findText, _replaceText ) );
+
+                // Note: Delete if it already exists, to allow overwrite.
+                File.Delete( newFilePath );
                 file.MoveTo( newFilePath );
             }
         }
