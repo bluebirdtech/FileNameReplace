@@ -19,7 +19,7 @@ namespace FileNameReplace
             }
 
             string fileNameFirstPart = "BirdJournal.Windows.1.2.3." + ( new Random() ).Next( 99999 );
-            File.WriteAllText( fileNameFirstPart + ".Symbols.nupkg", "hi" );
+            File.WriteAllText( fileNameFirstPart + ".symbols.nupkg", "hi" );
             var replacer = new FileNameReplacer( "*.nupkg", "Symbols.", "" );
             replacer.Execute();
             string targetFileName = fileNameFirstPart + ".nupkg";

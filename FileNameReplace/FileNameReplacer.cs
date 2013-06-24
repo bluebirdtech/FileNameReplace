@@ -22,6 +22,11 @@ namespace FileNameReplace
 
         public void Execute()
         {
+            Console.WriteLine( "FileNameReplacer.Execute" );
+            Console.WriteLine( "FilePath = " + FilePath );
+            Console.WriteLine( "FindText = " + FindText );
+            Console.WriteLine( "ReplaceText = " + ReplaceText );
+
             var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
             FileInfo[] files = directory.GetFiles( _filePath );
             foreach( FileInfo file in files )
@@ -29,8 +34,9 @@ namespace FileNameReplace
                 string fullPath = file.FullName;
                 string filename = Path.GetFileName( fullPath );
                 string directoryName = Path.GetDirectoryName( fullPath );
-                string newFilePath = Path.Combine( directoryName, filename.Replace( _findText, _replaceText ) );
+                string newFilePath = Path.Combine( directoryName, filename.ToLowerInvariant().Replace( _findText.ToLowerInvariant(), _replaceText.ToLowerInvariant() ) );
 
+                Console.WriteLine( "Renaming " + fullPath + " to " + newFilePath );
                 // Note: Delete if it already exists, to allow overwrite.
                 if( File.Exists( newFilePath ) )
                     File.Delete( newFilePath );
