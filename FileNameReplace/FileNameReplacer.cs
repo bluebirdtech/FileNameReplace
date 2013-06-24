@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,16 @@ namespace FileNameReplace
 
         public void Execute()
         {
-            var file = new FileInfo( _filePath );
-            string filename = Path.GetFileName( _filePath );
-            string directoryName = Path.GetDirectoryName( _filePath );
-            string newFilePath = Path.Combine( directoryName, filename.Replace( _findText, _replaceText ) );
-            file.MoveTo( newFilePath );
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            FileInfo[] files = directory.GetFiles( _filePath );
+            foreach( FileInfo file in files )
+            {
+                string fullPath = file.FullName;
+                string filename = Path.GetFileName( fullPath );
+                string directoryName = Path.GetDirectoryName( fullPath );
+                string newFilePath = Path.Combine( directoryName, filename.Replace( _findText, _replaceText ) );
+                file.MoveTo( newFilePath );
+            }
         }
 
         public string FilePath
