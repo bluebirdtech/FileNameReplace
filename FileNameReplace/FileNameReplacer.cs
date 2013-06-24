@@ -32,7 +32,8 @@ namespace FileNameReplace
                 string newFilePath = Path.Combine( directoryName, filename.Replace( _findText, _replaceText ) );
 
                 // Note: Delete if it already exists, to allow overwrite.
-                File.Delete( newFilePath );
+                if( File.Exists( newFilePath ) )
+                    File.Delete( newFilePath );
                 file.MoveTo( newFilePath );
             }
         }

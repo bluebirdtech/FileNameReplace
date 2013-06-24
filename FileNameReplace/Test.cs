@@ -7,8 +7,9 @@ namespace FileNameReplace
     [TestFixture]
     public class Test
     {
-        [Test]
-        public void ATest()
+        [TestCase( true )]
+        [TestCase( false )]
+        public void ATest(bool alreadyExists)
         {
             var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
             FileInfo[] files = directory.GetFiles( "*.nupkg" );
@@ -21,7 +22,10 @@ namespace FileNameReplace
             File.WriteAllText( fileNameFirstPart + ".Symbols.nupkg", "hi" );
             var replacer = new FileNameReplacer( "*.nupkg", "Symbols.", "" );
             replacer.Execute();
-            Assert.True( File.Exists( fileNameFirstPart + ".nupkg" ) );
+            string targetFileName = fileNameFirstPart + ".nupkg";
+            if( alreadyExists )
+                File.WriteAllText( targetFileName, "hi" );
+            Assert.True( File.Exists( targetFileName ) );
         }
     }
 }
